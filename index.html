@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Fetch-poke-api</title>
+</head>
+
+<body class="bg-slate-300">
+    <nav>
+        <div id="nav-bar" class="flex justify-between items-center bg-slate-500 p-4">
+            <img src="img/snorlax.png" class="w-24 " alt="lucario-logo">
+            <ul class="flex gap-8 text-lg text-slate-100 font-bold">
+                <li class="hover:text-indigo-400"><a href="#">Home</a></li>
+                <li class="hover:text-violet-400"><a href="#">API</a></li>
+                <li class="hover:text-purple-400"><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="main-section">
+        <div class="m-32 flex flex-col items-center justify-center gap-16">
+            <h1 class="text-5xl font-extrabold text-slate-950">Who's that pokemon?!</h1>
+            <h2 id="poke-name" class="text-3xl font-extrabold text-slate-950"></h2>
+            <img id="poke" class="w-48" src="img/pokeball.png" alt="pokeball">
+            <button class="bg-rose-900 text-2xl text-white px-4 py-2 rounded hover:bg-rose-800 btn">
+                <h1>Get random pokemon</h1>
+            </button>
+        </div>
+        <div class="flex flex-col items-center justify-center">
+
+
+
+        </div>
+    </div>
+</body>
+<script>
+    const button = document.querySelector(".btn");
+
+    async function getRandomPokemonData() {
+        const url = `https://pokeapi.co/api/v2/pokemon?limit=1304`
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data || !data.results) {
+                console.error("Invalid API response:", data);
+                return null;
+            }
+            return data.results;
+        } catch (error) {
+            console.error("Error fetching Pokémon list:", error);
+            return null;
+        }
+    }
+    function randomPokemonNumber(arr) {
+        return Math.floor(Math.random() * arr.length);
+    }
+    async function getSpecificPokemonData(pokemonName) {
+        const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
+        try {
+
+            const response = await fetch(url)
+            const data = await response.json();
+            return data
+        } catch (error) {
+            console.error(`error fetching Pokemon ${pokemonName}:`, error);
+            return null
+        }
+    }
+
+    button.addEventListener("click", async () => {
+        const pokemonArray = await getRandomPokemonData();
+
+        if (!pokemonArray || pokemonArray.length === 0) {
+            console.error("No Pokémon data received.");
+            return;
+        }
+
+        const randomIndex = randomPokemonNumber(pokemonArray)
+        const pokemon = pokemonArray[randomIndex];
+
+        if (!pokemon) {
+            console.error("Invalid Pokémon selection.");
+            return;
+        }
+        const pokemonName = pokemon.name
+        console.log("🚀 ~ button.addEventListener ~ pokemonName:", pokemonName)
+        const pokemonDetails = await getSpecificPokemonData(pokemonName)
+        console.log("🚀 ~ button.addEventListener ~ pokemonDetails:", pokemonDetails)
+        const pokemonSprite = pokemonDetails.sprites
+        const pokemonFrontSprite = pokemonSprite.front_default
+        // console.log("🚀 ~ getSpecificPokemonData ~ data:", pokemonSprite)
+        document.getElementById('poke').src = `${pokemonFrontSprite}`
+        document.getElementById('poke-name').textContent = `It's ${pokemonName}!`
+    })
+
+</script>
+
+</html>
