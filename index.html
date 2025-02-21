@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>Fetch-poke-api</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/dad9f3d6dd.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="bg-slate-300">
@@ -21,19 +24,17 @@
     </nav>
     <div id="main-section">
         <div class="m-32 flex flex-col items-center justify-center gap-16">
-            <h1 class="text-5xl font-extrabold text-slate-950">Who's that pokemon?!</h1>
+            <h1 class="text-5xl text-center font-extrabold text-slate-950">Who's that pokemon?!</h1>
             <h2 id="poke-name" class="text-3xl font-extrabold text-slate-950"></h2>
             <img id="poke" class="w-48" src="img/pokeball.png" alt="pokeball">
             <button class="bg-rose-900 text-2xl text-white px-4 py-2 rounded hover:bg-rose-800 btn">
                 <h1>Get random pokemon</h1>
             </button>
         </div>
-        <div class="flex flex-col items-center justify-center">
-
-
-
-        </div>
     </div>
+    <footer class="copyright">
+        <p>Copyright © Balam Castro. Website made by me <i class="fa-solid fa-feather"></i> </p>
+    </footer>
 </body>
 <script>
     const button = document.querySelector(".btn");
@@ -94,7 +95,6 @@
         document.getElementById('poke').src = `${pokemonFrontSprite}`
         document.getElementById('poke-name').textContent = `It's ${pokemonName}!`
     })
-
 </script>
 
 </html>
